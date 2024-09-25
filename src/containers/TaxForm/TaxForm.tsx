@@ -11,6 +11,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../app/hooks";
 import KG from "../../components/SVG/KG";
 import RU from "../../components/SVG/RU";
+import { formatMoney } from "../../helpers/formatMoney/formatMoney";
+import AnimatedNumbers from "react-animated-numbers";
 
 const TaxForm = () => {
   const { t, i18n } = useTranslation();
@@ -35,9 +37,7 @@ const TaxForm = () => {
     i18n.changeLanguage(lang);
   };
 
-  const handleCheckbox = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = e.target;
-
+  const handleCheckbox = (name: string, checked: boolean) => {
     setTaxes((prevState) =>
       prevState.map((tax) => (tax.name === name ? { ...tax, checked } : tax))
     );
@@ -55,6 +55,9 @@ const TaxForm = () => {
     dispatch(setTaxesData(checkedTaxes));
     navigate("/results");
   };
+
+  const totalTax = calculateTotalTax(taxes, userData ? userData.income : 0);
+
   return (
     <Grid2
       container
@@ -113,11 +116,7 @@ const TaxForm = () => {
           {t("text.yourIncome")}
         </Typography>
         <Typography variant="h5" fontStyle={"italic"}>
-          {userData &&
-            userData.income
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
-          СОМ
+          {formatMoney(userData ? userData.income : 0)}
         </Typography>
       </Grid2>
 
@@ -151,12 +150,21 @@ const TaxForm = () => {
           >
             {t("text.yourTotalPayment")}
           </Typography>
-          <Typography variant="h5" fontStyle={"italic"}>
-            {calculateTotalTax(taxes, userData ? userData.income : 0)
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
-            СОМ
-          </Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography variant="h5" fontStyle={"italic"}>
+              <AnimatedNumbers
+                includeComma
+                transitions={() => ({
+                  type: "spring",
+                  duration: 1.5,
+                })}
+                animateToNumber={totalTax}
+              />
+            </Typography>
+            <Typography variant="h5" fontStyle={"italic"} sx={{ ml: 1 }}>
+              KGS
+            </Typography>
+          </Box>
         </Box>
       </Grid2>
 

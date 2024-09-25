@@ -12,6 +12,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../../types";
 import { useTranslation } from "react-i18next";
+import { formatMoney } from "../../helpers/formatMoney/formatMoney";
 
 const initialState: UserData = {
   name: "",
@@ -40,6 +41,12 @@ const FinalScreen: React.FC = () => {
       : userData?.taxMode === "general"
       ? t("mainForm.general")
       : "";
+
+  const taxAmount = (income: number, tax: number) => {
+    return formatMoney((income * tax) / 100);
+  };
+  const totalTax = calculateTotalTax(taxes, userData?.income ?? 0);
+  const formattedIncome = formatMoney(userData?.income ?? 0);
 
   return (
     <Grid2
@@ -110,7 +117,7 @@ const FinalScreen: React.FC = () => {
             {t("mainForm.income")}
           </Typography>
           <Typography variant="body1" fontStyle={"italic"}>
-            {userData?.income} СОМ
+            {formattedIncome}
           </Typography>
         </Grid2>
         {taxes.map((tax) => (
@@ -122,8 +129,7 @@ const FinalScreen: React.FC = () => {
               {tax.displayName}
             </Typography>
             <Typography variant="body1" fontStyle={"italic"}>
-              {((userData ? userData.income : 0 * tax.procent) / 100).toFixed()}{" "}
-              СОМ
+              {taxAmount(userData ? userData.income : 0, tax.procent)}
             </Typography>
           </Grid2>
         ))}
@@ -143,7 +149,7 @@ const FinalScreen: React.FC = () => {
             {t("text.totalPaid")}
           </Typography>
           <Typography variant="body1" fontStyle={"italic"}>
-            {calculateTotalTax(taxes, userData ? userData.income : 0)} СОМ
+            {formatMoney(totalTax)}
           </Typography>
         </Grid2>
       </Grid2>

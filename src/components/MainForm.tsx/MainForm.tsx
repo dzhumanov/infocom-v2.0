@@ -1,5 +1,5 @@
 import { Button, Grid2, MenuItem, TextField, Typography } from "@mui/material";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
 import { setUserData } from "../../app/UserDataSlice";
 import { UserData } from "../../types";
@@ -54,24 +54,30 @@ const MainForm: React.FC<Props> = ({ onClose }) => {
   const onFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (state.inn.length !== 12) {
-      setInnError("ИНН должен содержать 12 цифр");
+    if (innError !== "" || incomeError !== "") {
       return;
-    } else {
-      setInnError("");
-    }
-
-    if (state.income <= 0 || state.income > 150000000) {
-      setIncomeError("Доход не может быть равен нулю и не больше 150 000 000");
-      return;
-    } else {
-      setIncomeError("");
     }
 
     dispatch(setUserData(state));
     setState(initialState);
     onClose();
     navigate("/taxForm");
+  };
+
+  const validateInn = () => {
+    if (state.inn.length !== 12) {
+      setInnError("ИНН должен содержать 12 цифр");
+    } else {
+      setInnError("");
+    }
+  };
+
+  const validateIncome = () => {
+    if (state.income <= 0 || state.income > 150000000) {
+      setIncomeError("Доход не может быть равен нулю и не больше 150 000 000");
+    } else {
+      setIncomeError("");
+    }
   };
 
   return (
@@ -141,6 +147,7 @@ const MainForm: React.FC<Props> = ({ onClose }) => {
             value={state.inn}
             onChange={inputChangeHandler}
             name="inn"
+            onBlur={validateInn}
             required
             error={!!innError}
             helperText={innError}
@@ -185,6 +192,7 @@ const MainForm: React.FC<Props> = ({ onClose }) => {
             value={state.income}
             onChange={inputChangeHandler}
             name="income"
+            onBlur={validateIncome}
             required
             error={!!incomeError}
             helperText={incomeError}

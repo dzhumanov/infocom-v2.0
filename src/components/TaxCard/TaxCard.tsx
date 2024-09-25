@@ -4,6 +4,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PanoramaFishEyeIcon from "@mui/icons-material/PanoramaFishEye";
 import { useTranslation } from "react-i18next";
+import { formatMoney } from "../../helpers/formatMoney/formatMoney";
 
 interface Props {
   name: string;
@@ -11,7 +12,7 @@ interface Props {
   checked: boolean;
   income: number;
   procent: number;
-  handleCheckBox: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleCheckBox: (name: string, checked: boolean) => void;
 }
 
 const TaxCard: React.FC<Props> = ({
@@ -24,7 +25,13 @@ const TaxCard: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
+  const handleClick = () => {
+    handleCheckBox(name, !checked);
+  };
+
   const formattedProcent = `(${procent}% ${t("text.fromIncome")}`;
+
+  const totalTax = (income * procent) / 100;
 
   return (
     <Grid2
@@ -35,7 +42,9 @@ const TaxCard: React.FC<Props> = ({
         py: 2,
         boxShadow: "-1px 10px 22px 0px rgba(0, 0, 0, 0.75)",
         borderRadius: "6px",
+        cursor: "pointer",
       }}
+      onClick={handleClick}
     >
       <Box
         sx={{
@@ -48,7 +57,6 @@ const TaxCard: React.FC<Props> = ({
         <Checkbox
           name={name.toLowerCase()}
           checked={checked}
-          onChange={handleCheckBox}
           icon={<PanoramaFishEyeIcon sx={{ fontSize: "30px" }} />}
           checkedIcon={
             <CheckCircleIcon sx={{ color: "black", fontSize: "30px" }} />
@@ -72,11 +80,7 @@ const TaxCard: React.FC<Props> = ({
           }}
         >
           <Typography variant="h5" sx={{ fontWeight: "bold", mt: "30px" }}>
-            {((income * procent) / 100)
-              .toFixed()
-              .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, " ")}{" "}
-            СОМ
+            {formatMoney(totalTax)}
           </Typography>
           <InfoIcon fontSize="large" />
         </Box>
