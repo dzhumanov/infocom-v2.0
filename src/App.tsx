@@ -1,35 +1,78 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Box, Button, Container, Grid2 } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "./components/Modal/Modal";
+import KG from "./components/SVG/KG";
+import RU from "./components/SVG/RU";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const { t, i18n } = useTranslation();
+  const [openBackdrop, setOpenBackdrop] = useState(false);
+
+  const onOpen = () => {
+    setOpenBackdrop(true);
+  };
+
+  const onClose = () => {
+    setOpenBackdrop(false);
+  };
+
+  useEffect(() => {
+    const lng = navigator.language;
+    i18n.changeLanguage(lng);
+  }, []);
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Container
+        maxWidth="lg"
+        sx={{
+          minHeight: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Grid2 container direction={"column"}>
+          <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
+            <Button
+              sx={{ border: "1px solid black", p: 0 }}
+              onClick={() => handleChangeLanguage("kg")}
+            >
+              <KG />
+            </Button>
+            <Button
+              sx={{ border: "1px solid black", p: 0 }}
+              onClick={() => handleChangeLanguage("ru")}
+            >
+              <RU />
+            </Button>
+          </Box>
+          <Button
+            variant="outlined"
+            sx={{
+              display: "block",
+              fontStyle: "italic",
+              color: "black",
+              borderColor: "black",
+              p: "16px",
+              lineHeight: "24px",
+              fontWeight: 400,
+            }}
+            onClick={onOpen}
+          >
+            {t("text.taxButton")}
+          </Button>
+        </Grid2>
+
+        {/* <Modal open={openBackdrop} onClose={onClose} /> */}
+      </Container>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
