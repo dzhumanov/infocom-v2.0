@@ -18,11 +18,11 @@ const TaxForm = () => {
   const dispatch = useAppDispatch();
   const userData = useSelector(selectUserData);
 
-    useEffect(() => {
-      if (!userData) {
-        navigate("/");
-      }
-    }, [navigate, userData]);
+  useEffect(() => {
+    if (!userData) {
+      navigate("/");
+    }
+  }, [navigate, userData]);
 
   const [taxes, setTaxes] = useState<Tax[]>([
     { name: "ipn", displayName: "ИПН", checked: false, procent: 3 },
@@ -53,6 +53,7 @@ const TaxForm = () => {
     }
 
     dispatch(setTaxesData(checkedTaxes));
+    navigate("/results");
   };
   return (
     <Grid2
@@ -81,20 +82,27 @@ const TaxForm = () => {
         <Typography variant={"h6"} fontStyle={"italic"} fontSize={"24px"}>
           {t("text.taxTitle")}
         </Typography>
-        <Box sx={{ display: "flex", gap: 2, flexGrow: 1, justifyContent: "flex-end"}} >
-            <Button
-              sx={{ border: "1px solid black", p: 0 }}
-              onClick={() => handleChangeLanguage("kg")}
-            >
-              <KG />
-            </Button>
-            <Button
-              sx={{ border: "1px solid black", p: 0 }}
-              onClick={() => handleChangeLanguage("ru")}
-            >
-              <RU />
-            </Button>
-          </Box>
+        <Box
+          sx={{
+            display: "flex",
+            gap: 2,
+            flexGrow: 1,
+            justifyContent: "flex-end",
+          }}
+        >
+          <Button
+            sx={{ border: "1px solid black", p: 0 }}
+            onClick={() => handleChangeLanguage("kg")}
+          >
+            <KG />
+          </Button>
+          <Button
+            sx={{ border: "1px solid black", p: 0 }}
+            onClick={() => handleChangeLanguage("ru")}
+          >
+            <RU />
+          </Button>
+        </Box>
       </Grid2>
       <Grid2 container justifyContent="space-between" alignItems="center">
         <Typography

@@ -17,6 +17,10 @@ i18n.use(initReactI18next).init({
           yourTotalPayment: "Итого к оплате за полугодие:",
           toPay: "Оплатить",
           fromIncome: "от дохода)",
+          thanks: "Спасибо!",
+          success: "Налоги успешно оплачены!",
+          totalPaid: "Итого оплачено за полугодие:",
+          onMain: "Вернуться на главную",
         },
         mainForm: {
           name: "Имя",
@@ -41,6 +45,10 @@ i18n.use(initReactI18next).init({
           yourTotalPayment: "Алты ай үчүн жалпы төлөө:",
           toPay: "Төлөө",
           fromIncome: "кирешеден)",
+          thanks: "Рахмат!",
+          success: "Салыктар ийгиликтүү төлөндү!",
+          totalPaid: "Жарым жыл үчүн жалпы төлөм:",
+          onMain: "Башкы бетке",
         },
         mainForm: {
           name: "Атыңыз",
