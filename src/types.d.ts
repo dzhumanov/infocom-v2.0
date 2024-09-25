@@ -5,3 +5,10 @@ export interface UserData {
   taxMode: "simple" | "general";
   income: number;
 }
+
+export interface Tax {
+  name: string;
+  displayName: string;
+  checked: boolean;
+  procent: number;
+}

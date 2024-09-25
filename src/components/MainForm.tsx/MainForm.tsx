@@ -1,9 +1,10 @@
 import { Button, Grid2, MenuItem, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useAppDispatch } from "../../app/hooks";
-import { setUserData } from "./UserDataSlice";
+import { setUserData } from "../../app/UserDataSlice";
 import { UserData } from "../../types";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   onClose: () => void;
@@ -31,6 +32,7 @@ const MainForm: React.FC<Props> = ({ onClose }) => {
   const [incomeError, setIncomeError] = useState<string>("");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const inputChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -69,6 +71,7 @@ const MainForm: React.FC<Props> = ({ onClose }) => {
     dispatch(setUserData(state));
     setState(initialState);
     onClose();
+    navigate("/taxForm");
   };
 
   return (

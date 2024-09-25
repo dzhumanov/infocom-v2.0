@@ -1,4 +1,4 @@
-import { Box, Button, Grid2 } from "@mui/material";
+import { Box, Button, Container, Grid2 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "../../components/Modal/Modal";
@@ -20,14 +20,16 @@ function Home() {
   useEffect(() => {
     const lng = navigator.language;
     i18n.changeLanguage(lng);
-  }, []);
+  }, [i18n]);
 
   const handleChangeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
 
   return (
-    <>
+    <Container
+      sx={{ display: "flex", justifyContent: "center", alignItems: "center", minHeight:"100vh" }}
+    >
       <Grid2 container direction={"column"}>
         <Box sx={{ display: "flex", gap: 2, mb: 2 }}>
           <Button
@@ -61,7 +63,7 @@ function Home() {
       </Grid2>
 
       <Modal open={openBackdrop} onClose={onClose} />
-    </>
+    </Container>
   );
 }
 

@@ -1,6 +1,7 @@
 import { Container } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import Home from "./containers/Home/Home";
+import TaxForm from "./containers/TaxForm/TaxForm";
 
 const App = () => {
   return (
@@ -8,13 +9,11 @@ const App = () => {
       maxWidth="lg"
       sx={{
         minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
       }}
     >
       <Routes>
         <Route path="/" element={<Home />}></Route>
+        <Route path="/taxForm" element={<TaxForm />}></Route>
       </Routes>
     </Container>
   );

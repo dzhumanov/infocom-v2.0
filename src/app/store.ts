@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { UserDataReducer } from "../components/MainForm.tsx/UserDataSlice";
+import { UserDataReducer } from "./UserDataSlice";
 
 export const store = configureStore({
   reducer: {

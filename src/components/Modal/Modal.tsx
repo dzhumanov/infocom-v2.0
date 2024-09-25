@@ -1,18 +1,24 @@
-import { Backdrop, Box, Grid2, Typography } from "@mui/material";
+import { Backdrop, Box, Button, Grid2, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import MainForm from "../MainForm.tsx/MainForm";
 import { useTranslation } from "react-i18next";
+import KG from "../SVG/KG";
+import RU from "../SVG/RU";
 
 interface Props {
   open: boolean;
   onClose: () => void;
 }
 const Modal: React.FC<Props> = ({ open, onClose }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [touchEndY, setTouchEndY] = useState<number | null>(null);
   const [modalTranslateY, setModalTranslateY] = useState(100);
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   useEffect(() => {
     setModalTranslateY(open ? 0 : 600);
@@ -111,18 +117,30 @@ const Modal: React.FC<Props> = ({ open, onClose }) => {
             mb: 2,
           }}
         >
-          <Typography variant={"h6"} fontStyle={"italic"} fontSize={"24px"}>
+          <Typography variant={"h6"} fontStyle={"italic"} fontSize={"24px"} sx={{flexGrow: 1}}>
             {t("text.taxTitle")}
           </Typography>
+          <Box sx={{ display: "flex", gap: 2}}>
+            <Button
+              sx={{ border: "1px solid black", p: 0 }}
+              onClick={() => handleChangeLanguage("kg")}
+            >
+              <KG />
+            </Button>
+            <Button
+              sx={{ border: "1px solid black", p: 0 }}
+              onClick={() => handleChangeLanguage("ru")}
+            >
+              <RU />
+            </Button>
+          </Box>
           <CloseIcon
             sx={{ cursor: "pointer", fontSize: "50px" }}
             onClick={handleClose}
           />
         </Grid2>
         <Grid2 sx={{ mb: 4 }}>
-          <Typography variant="body1">
-            {t("text.taxText")}
-          </Typography>
+          <Typography variant="body1">{t("text.taxText")}</Typography>
         </Grid2>
         <MainForm onClose={onClose} />
       </Grid2>
