@@ -12,6 +12,10 @@ interface Props {
 }
 const Modal: React.FC<Props> = ({ open, onClose }) => {
   const { t, i18n } = useTranslation();
+
+  // Эти 3 стейта и последующие функции в которых есть слово "Touch" нужны для свайпа модалки, при котором если количество пикселей было достаточным, она закроется. 
+  // К сожалению, на десктопе не работает, т.к события разные
+
   const [touchStartY, setTouchStartY] = useState<number | null>(null);
   const [touchEndY, setTouchEndY] = useState<number | null>(null);
   const [modalTranslateY, setModalTranslateY] = useState(100);
