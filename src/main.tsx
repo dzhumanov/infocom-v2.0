@@ -7,13 +7,17 @@ import "./i18n.ts";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "@emotion/react";
 import theme from "./theme.ts";
+import { Provider } from "react-redux";
+import { store } from "./app/store.ts";
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider theme={theme}>
-    <StrictMode>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </StrictMode>
-  </ThemeProvider>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </StrictMode>
+    </ThemeProvider>
+  </Provider>
 );
